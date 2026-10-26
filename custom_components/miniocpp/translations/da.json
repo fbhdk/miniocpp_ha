@@ -1,0 +1,89 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Forbind til miniocpp",
+        "description": "Angiv URL'en til din miniocpp-server og dens API-nøgle.",
+        "data": {
+          "host": "URL",
+          "api_key": "API-nøgle"
+        },
+        "data_description": {
+          "host": "For eksempel http://<host>:8080",
+          "api_key": "Værdien der sendes i X-API-Key-headeren."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Opdater API-nøgle",
+        "description": "miniocpp-serveren afviste API-nøglen.",
+        "data": {
+          "api_key": "API-nøgle"
+        }
+      },
+      "reconfigure": {
+        "title": "Omkonfigurer miniocpp",
+        "data": {
+          "host": "URL",
+          "api_key": "API-nøgle"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kunne ikke forbinde",
+      "invalid_auth": "Ugyldig API-nøgle"
+    },
+    "abort": {
+      "already_configured": "Denne server er allerede konfigureret",
+      "reauth_successful": "API-nøgle opdateret",
+      "reconfigure_successful": "Omkonfigurationen lykkedes"
+    }
+  },
+  "entity": {
+    "button": {
+      "refresh_meter_values": {
+        "name": "Opdater målerværdier"
+      }
+    },
+    "number": {
+      "charge_current": {
+        "name": "Ladestrøm"
+      }
+    },
+    "sensor": {
+      "status": {
+        "name": "Status",
+        "state": {
+          "available": "Ledig",
+          "preparing": "Forbereder",
+          "charging": "Lader",
+          "suspended_ev": "Sat på pause af bilen",
+          "suspended_evse": "Sat på pause af laderen",
+          "finishing": "Afslutter",
+          "reserved": "Reserveret",
+          "inoperative": "Ude af drift",
+          "faulted": "Fejl"
+        }
+      },
+      "energy_total": {
+        "name": "Energi i alt"
+      },
+      "session_energy": {
+        "name": "Energi denne session"
+      },
+      "current_phase": {
+        "name": "Strøm {phase}"
+      },
+      "voltage_phase": {
+        "name": "Spænding {phase}"
+      },
+      "last_seen": {
+        "name": "Sidst set"
+      }
+    },
+    "switch": {
+      "charging": {
+        "name": "Opladning"
+      }
+    }
+  }
+}

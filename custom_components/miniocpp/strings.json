@@ -1,0 +1,89 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to miniocpp",
+        "description": "Enter the URL of your miniocpp server and its API key.",
+        "data": {
+          "host": "URL",
+          "api_key": "API key"
+        },
+        "data_description": {
+          "host": "For example http://<host>:8080",
+          "api_key": "The value sent in the X-API-Key header."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Update API key",
+        "description": "The miniocpp server rejected the API key.",
+        "data": {
+          "api_key": "API key"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure miniocpp",
+        "data": {
+          "host": "URL",
+          "api_key": "API key"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_auth": "Invalid API key"
+    },
+    "abort": {
+      "already_configured": "This server is already configured",
+      "reauth_successful": "API key updated",
+      "reconfigure_successful": "Reconfiguration was successful"
+    }
+  },
+  "entity": {
+    "button": {
+      "refresh_meter_values": {
+        "name": "Refresh meter values"
+      }
+    },
+    "number": {
+      "charge_current": {
+        "name": "Charge current"
+      }
+    },
+    "sensor": {
+      "status": {
+        "name": "Status",
+        "state": {
+          "available": "Available",
+          "preparing": "Preparing",
+          "charging": "Charging",
+          "suspended_ev": "Paused by vehicle",
+          "suspended_evse": "Paused by charger",
+          "finishing": "Finishing",
+          "reserved": "Reserved",
+          "inoperative": "Unavailable",
+          "faulted": "Faulted"
+        }
+      },
+      "energy_total": {
+        "name": "Energy total"
+      },
+      "session_energy": {
+        "name": "Session energy"
+      },
+      "current_phase": {
+        "name": "Current {phase}"
+      },
+      "voltage_phase": {
+        "name": "Voltage {phase}"
+      },
+      "last_seen": {
+        "name": "Last seen"
+      }
+    },
+    "switch": {
+      "charging": {
+        "name": "Charging"
+      }
+    }
+  }
+}
