@@ -41,7 +41,7 @@ You get one device per connected charger (connector 1):
 | Sensor **Last seen** | Last message from the charger (diagnostic) |
 | Button **Refresh meter values** | Asks the charger to send MeterValues now (diagnostic) |
 
-The integration polls every 15 seconds. A charger that first connects to miniocpp after the integration is set up appears when you reload the integration.
+The integration polls every 15 seconds. A charger that connects to miniocpp later, for example one that was offline while Home Assistant started, gets its entities as soon as it shows up.
 
 ## Development
 
