@@ -66,6 +66,22 @@ async def test_switch_and_number_send_commands(hass, aioclient_mock, config_entr
     assert float(hass.states.get("number.charger_1_charge_current").state) == 10
 
 
+async def test_charger_connecting_after_setup(hass, aioclient_mock, config_entry):
+    """A charger offline at startup gets entities once the server lists it."""
+    aioclient_mock.get(f"{HOST}/api/chargers", json=[])
+    config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+    assert hass.states.get("sensor.charger_1_status") is None
+
+    aioclient_mock.clear_requests()
+    aioclient_mock.get(f"{HOST}/api/chargers", json=[make_snapshot("Preparing")])
+    await config_entry.runtime_data.async_refresh()
+    await hass.async_block_till_done()
+    assert hass.states.get("sensor.charger_1_status").state == "preparing"
+    assert hass.states.get("switch.charger_1_charging").state == "on"
+
+
 async def test_auth_failure_starts_reauth(hass, aioclient_mock, config_entry):
     """401 on setup puts the entry into reauth."""
     aioclient_mock.get(f"{HOST}/api/chargers", status=401)

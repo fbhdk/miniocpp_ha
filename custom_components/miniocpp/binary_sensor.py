@@ -11,7 +11,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import PLUGGED_IN_STATUSES
 from .coordinator import MiniOcppConfigEntry
-from .entity import MiniOcppEntity, connector_status
+from .entity import MiniOcppEntity, async_add_charger_entities, connector_status
 
 
 async def async_setup_entry(
@@ -20,9 +20,10 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the plugged-in binary sensor."""
-    coordinator = entry.runtime_data
-    async_add_entities(
-        MiniOcppPluggedIn(coordinator, charger_id) for charger_id in coordinator.data
+    async_add_charger_entities(
+        entry,
+        async_add_entities,
+        lambda coordinator, charger_id: [MiniOcppPluggedIn(coordinator, charger_id)],
     )
 
 

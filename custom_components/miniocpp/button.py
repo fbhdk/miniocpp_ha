@@ -10,7 +10,7 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .api import MiniOcppError
 from .coordinator import MiniOcppConfigEntry
-from .entity import MiniOcppEntity
+from .entity import MiniOcppEntity, async_add_charger_entities
 
 
 async def async_setup_entry(
@@ -19,10 +19,12 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the refresh button."""
-    coordinator = entry.runtime_data
-    async_add_entities(
-        MiniOcppRefreshButton(coordinator, charger_id)
-        for charger_id in coordinator.data
+    async_add_charger_entities(
+        entry,
+        async_add_entities,
+        lambda coordinator, charger_id: [
+            MiniOcppRefreshButton(coordinator, charger_id)
+        ],
     )
 
 

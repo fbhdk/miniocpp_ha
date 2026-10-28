@@ -26,7 +26,12 @@ from homeassistant.util import dt as dt_util
 
 from .const import CONNECTOR_STATUS
 from .coordinator import MiniOcppConfigEntry
-from .entity import MiniOcppEntity, connector_status, meter_reading
+from .entity import (
+    MiniOcppEntity,
+    async_add_charger_entities,
+    connector_status,
+    meter_reading,
+)
 
 
 def _scaled(
@@ -153,11 +158,13 @@ async def async_setup_entry(
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up miniocpp sensors."""
-    coordinator = entry.runtime_data
-    async_add_entities(
-        MiniOcppSensor(coordinator, charger_id, description)
-        for charger_id in coordinator.data
-        for description in SENSORS
+    async_add_charger_entities(
+        entry,
+        async_add_entities,
+        lambda coordinator, charger_id: (
+            MiniOcppSensor(coordinator, charger_id, description)
+            for description in SENSORS
+        ),
     )
 
 

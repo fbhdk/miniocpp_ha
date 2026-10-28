@@ -2,13 +2,46 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable, Iterable
 from typing import Any
 
+from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity import Entity
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DEFAULT_CONNECTOR, DOMAIN
-from .coordinator import MiniOcppCoordinator
+from .coordinator import MiniOcppConfigEntry, MiniOcppCoordinator
+
+
+@callback
+def async_add_charger_entities(
+    entry: MiniOcppConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
+    entities_for: Callable[[MiniOcppCoordinator, str], Iterable[Entity]],
+) -> None:
+    """Add entities for every charger, including ones that connect later.
+
+    The server only lists connected chargers, so a charger that is offline
+    when Home Assistant starts shows up in a later poll.
+    """
+    coordinator = entry.runtime_data
+    known: set[str] = set()
+
+    @callback
+    def _add_new_chargers() -> None:
+        if not (new := coordinator.data.keys() - known):
+            return
+        known.update(new)
+        async_add_entities(
+            entity
+            for charger_id in new
+            for entity in entities_for(coordinator, charger_id)
+        )
+
+    _add_new_chargers()
+    entry.async_on_unload(coordinator.async_add_listener(_add_new_chargers))
 
 
 def connector_status(snapshot: dict[str, Any], connector: int) -> str | None:
