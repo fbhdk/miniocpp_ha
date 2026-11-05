@@ -9,7 +9,7 @@
           "api_key": "API key"
         },
         "data_description": {
-          "host": "For example http://<host>:8080",
+          "host": "For example http://192.168.1.10:8080",
           "api_key": "The value sent in the X-API-Key header."
         }
       },
